@@ -13,9 +13,13 @@ export const getTimeDifference = (endTimeMS) => {
   const sec = Math.floor((difference % _minute) / _second);
 
   return {
-    sec,
-    min,
-    hour,
-    day,
+    sec: cleanValue(sec),
+    min: cleanValue(min),
+    hour: cleanValue(hour),
+    day: cleanValue(day),
   };
+};
+
+export const cleanValue = (value) => {
+  return value > 0 ? value : 0;
 };

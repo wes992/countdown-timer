@@ -1,7 +1,9 @@
+import { Grid, Typography } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import { getTimeDifference } from "../utils/utils";
 
-const Countdown = ({ endTime }) => {
+const Countdown = ({ timer }) => {
+  const { open, title, date: endTime } = timer;
   const [remainingTime, setRemainingTime] = useState({});
 
   const endTimeMS = new Date(endTime).getTime();
@@ -18,29 +20,35 @@ const Countdown = ({ endTime }) => {
   const { sec, min, hour, day } = remainingTime;
 
   return (
-    <section className="coming-soon">
-      <div>
-        <h2>We're going on vacation!</h2>
-        <div className="countdown">
-          <div className="time-container">
-            <h3 className="time-value">{day}</h3>
-            <h3 className="time-description">Day</h3>
-          </div>
-          <div className="time-container">
-            <h3 className="time-value">{hour}</h3>
-            <h3 className="time-description">Hour</h3>
-          </div>
-          <div className="time-container">
-            <h3 className="time-value">{min}</h3>
-            <h3 className="time-description">Minute</h3>
-          </div>
-          <div className="time-container">
-            <h3 className="time-value">{sec}</h3>
-            <h3 className="time-description">Second</h3>
-          </div>
+    <Grid container alignItems="center" justifyContent="center" my={3}>
+      <Typography variant="h2">{title}</Typography>
+      <Grid container px={3} justifyContent="space-around" textAlign="center">
+        <div className="time-container">
+          <Typography variant="h3" className="time-value">
+            {day}
+          </Typography>
+          <Typography className="time-description">Day</Typography>
         </div>
-      </div>
-    </section>
+        <div className="time-container">
+          <Typography variant="h3" className="time-value">
+            {hour}
+          </Typography>
+          <Typography className="time-description">Hour</Typography>
+        </div>
+        <div className="time-container">
+          <Typography variant="h3" className="time-value">
+            {min}
+          </Typography>
+          <Typography className="time-description">Minute</Typography>
+        </div>
+        <div className="time-container">
+          <Typography variant="h3" className="time-value">
+            {sec}
+          </Typography>
+          <Typography className="time-description">Second</Typography>
+        </div>
+      </Grid>
+    </Grid>
   );
 };
 

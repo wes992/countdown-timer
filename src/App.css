@@ -14,12 +14,12 @@ h2 {
   justify-content: center;
 }
 
-.countdown {
+/* .countdown {
   display: flex;
   justify-content: space-around;
   text-align: center;
   flex-wrap: wrap;
-}
+} */
 
 .time-container {
   width: 50%  
