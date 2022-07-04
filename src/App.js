@@ -4,7 +4,7 @@ import { Countdown } from "./Components";
 function App() {
   return (
     <div className="App">
-      <Countdown />
+      <Countdown endTime={"December 17, 2022"} />
     </div>
   );
 }
