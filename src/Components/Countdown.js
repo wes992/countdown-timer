@@ -1,7 +1,8 @@
+import { Box, Grid, Typography } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import { getTimeDifference } from "../utils/utils";
 
-const Countdown = ({ endTime }) => {
+const Countdown = ({ title, endTime }) => {
   const [remainingTime, setRemainingTime] = useState({});
 
   const endTimeMS = new Date(endTime).getTime();
@@ -18,29 +19,37 @@ const Countdown = ({ endTime }) => {
   const { sec, min, hour, day } = remainingTime;
 
   return (
-    <section className="coming-soon">
+    <Grid container alignItems="center" justifyContent="center">
       <div>
-        <h2>We're going on vacation!</h2>
-        <div className="countdown">
+        <Typography variant="h2">{title}</Typography>
+        <Box className="countdown">
           <div className="time-container">
-            <h3 className="time-value">{day}</h3>
-            <h3 className="time-description">Day</h3>
+            <Typography variant="h3" className="time-value">
+              {day}
+            </Typography>
+            <Typography className="time-description">Day</Typography>
           </div>
           <div className="time-container">
-            <h3 className="time-value">{hour}</h3>
-            <h3 className="time-description">Hour</h3>
+            <Typography variant="h3" className="time-value">
+              {hour}
+            </Typography>
+            <Typography className="time-description">Hour</Typography>
           </div>
           <div className="time-container">
-            <h3 className="time-value">{min}</h3>
-            <h3 className="time-description">Minute</h3>
+            <Typography variant="h3" className="time-value">
+              {min}
+            </Typography>
+            <Typography className="time-description">Minute</Typography>
           </div>
           <div className="time-container">
-            <h3 className="time-value">{sec}</h3>
-            <h3 className="time-description">Second</h3>
+            <Typography variant="h3" className="time-value">
+              {sec}
+            </Typography>
+            <Typography className="time-description">Second</Typography>
           </div>
-        </div>
+        </Box>
       </div>
-    </section>
+    </Grid>
   );
 };
 
