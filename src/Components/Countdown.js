@@ -4,7 +4,7 @@ const Countdown = () => {
   return (
     <section className="coming-soon">
       <div>
-        <h2>We are opening soon</h2>
+        <h2>We're going on vacation!'</h2>
         <div className="countdown">
           <div className="time-container">
             <h3 className="time-value">Time</h3>
