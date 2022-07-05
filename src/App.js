@@ -1,9 +1,11 @@
+import { useState } from "react";
 import "./App.css";
 import { Countdown } from "./Components";
 import { AddNew } from "./Components/AddNew";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { v4 } from "uuid";
+import { Button, Grid } from "@mui/material";
 function App() {
   const [timers, setTimers] = useState([
     {
@@ -20,14 +22,52 @@ function App() {
     setTimers([...timers, { ...info, id: v4() }]);
   };
 
-  console.log("timers", timers);
+  const handleOpenTimer = (timerId) => {
+    setTimers((timers) =>
+      timers.map((timer) => {
+        if (timer.id === timerId) {
+          return { ...timer, open: true };
+        }
+        return timer;
+      })
+    );
+  };
+
+  const handleCloseTimer = (timerId) => {
+    setTimers((timers) =>
+      timers.map((timer) => {
+        if (timer.id === timerId) {
+          return { ...timer, open: false };
+        }
+        return timer;
+      })
+    );
+  };
+
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <div className="App">
         <AddNew addCountdown={handleAdd} />
-        {timers.map((timer) => (
-          <Countdown key={timer.id} timer={timer} />
-        ))}
+        <Grid container gap={2} justifyContent="center">
+          {timers.map((timer) =>
+            timer.open ? (
+              <Countdown
+                key={timer.id}
+                timer={timer}
+                handleClose={() => handleCloseTimer(timer.id)}
+              />
+            ) : (
+              <Button
+                key={timer.id}
+                variant="text"
+                color="primary"
+                onClick={() => handleOpenTimer(timer.id)}
+              >
+                v
+              </Button>
+            )
+          )}
+        </Grid>
       </div>
     </LocalizationProvider>
   );

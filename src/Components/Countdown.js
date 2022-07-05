@@ -1,8 +1,8 @@
-import { Grid, Typography } from "@mui/material";
+import { Button, Collapse, Grid, Typography } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import { getTimeDifference } from "../utils/utils";
 
-const Countdown = ({ timer }) => {
+const Countdown = ({ timer, handleClose }) => {
   const { open, title, date: endTime } = timer;
   const [remainingTime, setRemainingTime] = useState({});
 
@@ -20,7 +20,19 @@ const Countdown = ({ timer }) => {
   const { sec, min, hour, day } = remainingTime;
 
   return (
-    <Grid container alignItems="center" justifyContent="center" my={3}>
+    <Grid
+      item
+      border="1px solid gray"
+      alignItems="center"
+      justifyContent="center"
+      p={2}
+      xs={12}
+      sm={5}
+      borderRadius={2}
+    >
+      <Button variant="text" align="left" onClick={handleClose}>
+        ^
+      </Button>
       <Typography variant="h2">{title}</Typography>
       <Grid container px={3} justifyContent="space-around" textAlign="center">
         <div className="time-container">

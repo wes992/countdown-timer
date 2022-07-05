@@ -7,7 +7,6 @@ const AddNew = ({ addCountdown }) => {
   const [collapsed, setCollapsed] = useState(false);
 
   const handleChange = (key, newValue) => {
-    debugger;
     setValue((val) => ({ ...val, [key]: newValue }));
   };
 
