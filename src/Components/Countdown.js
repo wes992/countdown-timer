@@ -23,16 +23,16 @@ const Countdown = ({ timer, handleClose }) => {
     <Grid
       item
       border="1px solid gray"
-      alignItems="center"
-      justifyContent="center"
+      // alignItems="center"
+      // justifyContent="center"
       p={2}
       xs={12}
-      sm={5}
+      // sm={5}
       borderRadius={2}
     >
-      <Button variant="text" align="left" onClick={handleClose}>
+      {/* <Button variant="text" align="left" onClick={handleClose}>
         ^
-      </Button>
+      </Button> */}
       <Typography variant="h2">{title}</Typography>
       <Grid container px={3} justifyContent="space-around" textAlign="center">
         <div className="time-container">
