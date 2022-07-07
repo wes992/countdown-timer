@@ -5,9 +5,8 @@ import { AddNew } from "./Components/AddNew";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { v4 } from "uuid";
-import { Button, Grid } from "@mui/material";
+import { Grid } from "@mui/material";
 import { Collapsible } from "./Components/Collapsible";
-import Cup from "./Components/Cup";
 function App() {
   const [timers, setTimers] = useState([
     {
@@ -21,24 +20,28 @@ function App() {
   ]);
 
   const handleAdd = (info) => {
-    setTimers([...timers, { ...info, id: v4() }]);
+    setTimers([...timers, { ...info, id: v4(), createdAt: Date.now() }]);
+  };
+
+  const handleDelete = (id) => {
+    setTimers((timers) => timers.filter((timer) => timer.id !== id));
   };
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <div className="App">
         <AddNew addCountdown={handleAdd} />
-        <Grid container gap={2} justifyContent="center" fullWidth>
+        <Grid container gap={2} justifyContent="center">
           {timers.map((timer) => (
             <Collapsible
+              key={timer.id}
               buttonTexts={{ open: `Open ${timer.title}`, closed: "close" }}
               defaultOpen={timer.open}
             >
-              <Countdown timer={timer} />
+              <Countdown timer={timer} onDelete={handleDelete} />
             </Collapsible>
           ))}
         </Grid>
-        <Cup />
       </div>
     </LocalizationProvider>
   );

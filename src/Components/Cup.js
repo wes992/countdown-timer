@@ -1,32 +1,25 @@
 import React from "react";
+import { getTimeDifference } from "../utils/utils";
 import "./cup.css";
 import bubbles from "./images/BUBBLES.gif";
 
-const Cup = () => {
-  const imageStyles = {
-    height: "150px",
-    position: "absolute",
-    bottom: "-150px",
-    left: "0px",
-    transform: `translate(-20px, ${-50}px)`,
-  };
+const Cup = ({ progress = 20 }) => {
+  const fillProgress = 200 - progress * 2;
 
   const cupStyles = {
-    borderTop: "100px solid rgba(84, 148, 147, 0.228)",
-    borderLeft: "25px solid transparent",
-    borderRight: "25px solid transparent",
-    height: "0",
-    width: "50px",
+    width: "100px",
+    height: "200px",
+    borderRadius: "0 0 10px 10px",
+    boxShadow: "0 8px 8px rgba(86,125,128, .75)",
+    borderTop: "2px solid transparent",
+    background: `url(${bubbles})`,
+    backgroundSize: "cover",
+    backgroundPosition: `0px ${fillProgress}px`,
+    backgroundRepeat: "repeat-x",
     position: "relative",
-    ":before": { content: bubbles, ...imageStyles },
   };
 
-  return (
-    <div id="cup">
-      Cup
-      {/* <img style={imageStyles} id="bubbles" src={bubbles} alt="bubbles" /> */}
-    </div>
-  );
+  return <div style={cupStyles} />;
 };
 
 export default Cup;

@@ -1,15 +1,22 @@
 import { Button, Collapse, Grid, Typography } from "@mui/material";
 import React, { useState, useEffect } from "react";
-import { getTimeDifference } from "../utils/utils";
+import {
+  getCountdownProgress,
+  getFinishedText,
+  getTimeDifference,
+} from "../utils/utils";
+import Cup from "./Cup";
 
-const Countdown = ({ timer, handleClose }) => {
+const Countdown = ({ timer, onDelete }) => {
   const { open, title, date: endTime } = timer;
   const [remainingTime, setRemainingTime] = useState({});
+  const [finishedText, setFinishedText] = useState("");
 
   const endTimeMS = new Date(endTime).getTime();
 
   useEffect(() => {
     const time = setInterval(handleUpdateTime, 500);
+    setFinishedText(getFinishedText());
     return () => clearInterval(time);
   }, []);
 
@@ -19,21 +26,23 @@ const Countdown = ({ timer, handleClose }) => {
 
   const { sec, min, hour, day } = remainingTime;
 
-  return (
-    <Grid
-      item
-      border="1px solid gray"
-      // alignItems="center"
-      // justifyContent="center"
-      p={2}
-      xs={12}
-      // sm={5}
-      borderRadius={2}
-    >
-      {/* <Button variant="text" align="left" onClick={handleClose}>
-        ^
-      </Button> */}
-      <Typography variant="h2">{title}</Typography>
+  const getCountdownContent = () => {
+    if (sec === 0 && min === 0 && hour === 0 && day === 0) {
+      return (
+        <Grid
+          container
+          px={3}
+          direction="column"
+          alignItems={"center"}
+          textAlign="center"
+        >
+          <Typography variant="h3">{finishedText}</Typography>
+          <Cup progress={100} />
+        </Grid>
+      );
+    }
+
+    return (
       <Grid container px={3} justifyContent="space-around" textAlign="center">
         <div className="time-container">
           <Typography variant="h3" className="time-value">
@@ -59,7 +68,18 @@ const Countdown = ({ timer, handleClose }) => {
           </Typography>
           <Typography className="time-description">Second</Typography>
         </div>
+        <Cup progress={getCountdownProgress(timer)} />
       </Grid>
+    );
+  };
+
+  return (
+    <Grid item border="1px solid gray" p={2} xs={12} borderRadius={2}>
+      <Button variant="text" onClick={() => onDelete(timer.id)}>
+        x
+      </Button>
+      <Typography variant="h2">{title}</Typography>
+      {getCountdownContent()}
     </Grid>
   );
 };
