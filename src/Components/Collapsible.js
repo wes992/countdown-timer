@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { TextField, Box, Collapse, Button, Grid } from "@mui/material";
+import { Collapse, Button, Grid } from "@mui/material";
 
 const Collapsible = ({
   buttonTexts,

@@ -1,4 +1,4 @@
-import { Button, Collapse, Grid, Typography } from "@mui/material";
+import { Button, Grid, Typography } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import {
   getCountdownProgress,
@@ -7,8 +7,8 @@ import {
 } from "../utils/utils";
 import Cup from "./Cup";
 
-const Countdown = ({ timer, onDelete }) => {
-  const { open, title, date: endTime } = timer;
+const Countdown = ({ countdown, onDelete }) => {
+  const { title, date: endTime } = countdown;
   const [remainingTime, setRemainingTime] = useState({});
   const [finishedText, setFinishedText] = useState("");
 
@@ -68,14 +68,14 @@ const Countdown = ({ timer, onDelete }) => {
           </Typography>
           <Typography className="time-description">Second</Typography>
         </div>
-        <Cup progress={getCountdownProgress(timer)} />
+        <Cup progress={getCountdownProgress(countdown)} />
       </Grid>
     );
   };
 
   return (
     <Grid item border="1px solid gray" p={2} xs={12} borderRadius={2}>
-      <Button variant="text" onClick={() => onDelete(timer.id)}>
+      <Button variant="text" onClick={() => onDelete(countdown.id)}>
         x
       </Button>
       <Typography variant="h2">{title}</Typography>

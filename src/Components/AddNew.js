@@ -1,4 +1,4 @@
-import { TextField, Box, Collapse, Button } from "@mui/material";
+import { TextField, Box, Button } from "@mui/material";
 import { useState } from "react";
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import { Collapsible } from "./Collapsible";
@@ -12,13 +12,11 @@ const AddNew = ({ addCountdown }) => {
 
   const handleAddCountdown = () => {
     addCountdown(value);
-    // setCollapsed(true);
   };
 
   const { title, date } = value;
   return (
     <Collapsible buttonTexts={{ open: "Add New Timer", closed: "Close" }}>
-      {/* <Collapse in={!collapsed}> */}
       <Box
         component="form"
         sx={{
@@ -48,7 +46,7 @@ const AddNew = ({ addCountdown }) => {
             display="block"
             label="Date/Time picker"
             value={date}
-            onChange={(val) => handleChange("date", val)}
+            onChange={(val) => handleChange("date", val.toDate())}
             renderInput={(params) => (
               <TextField
                 helperText="When is the big day?"

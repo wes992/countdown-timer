@@ -41,7 +41,7 @@ export const getCountdownProgress = (countdown) => {
 export const getFinishedText = () => {
   const finishedTexts = [
     "Woohoo, you made it!",
-    "The wait is over",
+    "The wait is over!",
     "This is going to be fun!",
     "Buckle up, here we go!",
   ];
