@@ -29,8 +29,6 @@ export const addDataToCollection = (collection, docToAdd) => {
     addDoc(getCollection(collection), docToAdd);
   } catch (err) {
     console.log(err);
-  } finally {
-    console.log("made it to finally");
   }
 };
 

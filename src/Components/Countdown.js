@@ -12,8 +12,6 @@ const Countdown = ({ countdown, onDelete }) => {
   const [remainingTime, setRemainingTime] = useState({});
   const [finishedText, setFinishedText] = useState("");
 
-  // console.log("countdown", countdown);÷
-
   const endTimeMS = new Date(endDate).getTime();
 
   useEffect(() => {
