@@ -29,7 +29,8 @@ export const getCountdownProgress = (countdown) => {
   const now = new Date().getTime();
 
   const countDownLength =
-    Number(new Date(countdown.date).getTime()) - Number(countdown.createdAt);
+    Number(new Date(countdown.endDate).getTime()) -
+    Number(new Date(countdown.createdAt).getTime());
 
   const timeElapsed = Number(now) - Number(countdown.createdAt);
 

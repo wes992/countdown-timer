@@ -7,17 +7,24 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { v4 } from "uuid";
 import { Grid } from "@mui/material";
 import { Collapsible } from "./Components/Collapsible";
-import { addDataToCollection, getDataInCollection } from "./firebase";
+import { addDataToCollection, getDataInCollection } from "./firebase/firebase";
 function App() {
   const [countdowns, setCountdowns] = useState([]);
 
   useEffect(() => {
     const data = Promise.resolve(getDataInCollection("countdowns"));
-    data.then((_data) => setCountdowns(_data));
-  }, [countdowns]);
+    data.then((_data) => {
+      setCountdowns(
+        _data.map((d) => ({
+          ...d,
+          endDate: d.endDate.toDate(),
+        }))
+      );
+    });
+  }, []);
 
   const handleAdd = (info) => {
-    const addedItem = { ...info, id: v4(), createdAt: Date.now() };
+    const addedItem = { ...info, id: v4(), createdAt: new Date() };
     addDataToCollection("countdowns", addedItem);
     setCountdowns([...countdowns, addedItem]);
   };

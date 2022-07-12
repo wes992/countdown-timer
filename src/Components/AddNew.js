@@ -2,19 +2,27 @@ import { TextField, Box, Button } from "@mui/material";
 import { useState } from "react";
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import { Collapsible } from "./Collapsible";
+import { handleValidation } from "../utils/validation";
 
 const AddNew = ({ addCountdown }) => {
-  const [value, setValue] = useState({ title: "", date: new Date() });
+  const defaultVal = { title: "", endDate: new Date() };
+  const [value, setValue] = useState(defaultVal);
+  const [errors, setErrors] = useState({});
 
   const handleChange = (key, newValue) => {
     setValue((val) => ({ ...val, [key]: newValue }));
   };
 
   const handleAddCountdown = () => {
-    addCountdown(value);
+    const { hasErrors, errors } = handleValidation(value);
+    setErrors(errors);
+    if (!hasErrors) {
+      addCountdown(value);
+      setValue(defaultVal);
+    }
   };
 
-  const { title, date } = value;
+  const { title, endDate } = value;
   return (
     <Collapsible buttonTexts={{ open: "Add New Timer", closed: "Close" }}>
       <Box
@@ -22,7 +30,6 @@ const AddNew = ({ addCountdown }) => {
         sx={{
           "& .MuiTextField-root": { m: 1, width: "30ch" },
         }}
-        noValidate
         autoComplete="off"
         border={"1px solid gray"}
         borderRadius={2}
@@ -33,23 +40,30 @@ const AddNew = ({ addCountdown }) => {
       >
         <div>
           <TextField
+            error={!!errors.title}
             id="timer-name"
             label="Countdown name"
-            helperText="What are we counting to?"
+            helperText={
+              errors.title ? errors.title : "What are we counting to?"
+            }
             variant="filled"
             value={title}
             onChange={(val) => handleChange("title", val.target.value)}
+            required
           />
         </div>
         <div>
           <DateTimePicker
+            error={!!errors.endDate}
             display="block"
             label="Date/Time picker"
-            value={date}
-            onChange={(val) => handleChange("date", val.toDate())}
+            value={endDate}
+            onChange={(val) => handleChange("endDate", val.toDate())}
             renderInput={(params) => (
               <TextField
-                helperText="When is the big day?"
+                helperText={
+                  errors.endDate ? errors.endDate : "When is the big day?"
+                }
                 variant="filled"
                 {...params}
               />

@@ -8,11 +8,13 @@ import {
 import Cup from "./Cup";
 
 const Countdown = ({ countdown, onDelete }) => {
-  const { title, date: endTime } = countdown;
+  const { title, endDate } = countdown;
   const [remainingTime, setRemainingTime] = useState({});
   const [finishedText, setFinishedText] = useState("");
 
-  const endTimeMS = new Date(endTime).getTime();
+  // console.log("countdown", countdown);÷
+
+  const endTimeMS = new Date(endDate).getTime();
 
   useEffect(() => {
     const time = setInterval(handleUpdateTime, 500);
