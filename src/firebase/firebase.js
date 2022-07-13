@@ -1,5 +1,12 @@
 import { initializeApp } from "firebase/app";
-import { getDocs, collection, getFirestore, addDoc } from "firebase/firestore";
+import {
+  getDocs,
+  collection,
+  getFirestore,
+  addDoc,
+  deleteDoc,
+  doc,
+} from "firebase/firestore";
 import { firebaseConfig } from "./config";
 
 initializeApp(firebaseConfig);
@@ -24,9 +31,24 @@ export const getDataInCollection = async (collection, input) => {
   }
 };
 
-export const addDataToCollection = (collection, docToAdd) => {
+export const addDataToCollection = async (collection, docToAdd) => {
   try {
-    addDoc(getCollection(collection), docToAdd);
+    const result = await addDoc(getCollection(collection), docToAdd);
+
+    if (!!result.id) {
+      const newData = await getDataInCollection(collection);
+      return { success: true, data: newData };
+    }
+  } catch (err) {
+    console.log(err);
+    return { success: false, data: err };
+  }
+};
+
+export const deleteDataFromCollection = async (collection, docId) => {
+  const docToDelete = doc(getCollection(collection), docId);
+  try {
+    await deleteDoc(docToDelete);
   } catch (err) {
     console.log(err);
   }

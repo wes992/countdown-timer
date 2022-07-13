@@ -4,12 +4,16 @@ import { Countdown } from "./Components";
 import { AddNew } from "./Components/AddNew";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { v4 } from "uuid";
 import { Grid } from "@mui/material";
 import { Collapsible } from "./Components/Collapsible";
-import { addDataToCollection, getDataInCollection } from "./firebase/firebase";
+import {
+  addDataToCollection,
+  deleteDataFromCollection,
+  getDataInCollection,
+} from "./firebase/firebase";
 function App() {
   const [countdowns, setCountdowns] = useState([]);
+  const [shouldClose, setShouldClose] = useState(false);
 
   useEffect(() => {
     const data = Promise.resolve(getDataInCollection("countdowns"));
@@ -21,31 +25,38 @@ function App() {
         }))
       );
     });
+    setShouldClose(false);
   }, []);
 
-  const handleAdd = (info) => {
-    const addedItem = { ...info, id: v4(), createdAt: new Date() };
-    addDataToCollection("countdowns", addedItem);
+  const handleAdd = (addedItem) => {
+    // const addedItem = { ...info, id: v4(), createdAt: new Date() };
+    // const result = await addDataToCollection("countdowns", addedItem);
+
+    // console.log("result", result);
+    // if (result.success) {
+    //   setShouldClose(true);
+    // }
     setCountdowns([...countdowns, addedItem]);
   };
 
   const handleDelete = (id) => {
+    deleteDataFromCollection("countdowns", id);
     setCountdowns((countdowns) =>
       countdowns.filter((countdown) => countdown.id !== id)
     );
   };
 
-  if (!countdowns.length) return "Loading...";
+  // if (!countdowns.length) return "Loading...";
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <div className="App">
-        <AddNew addCountdown={handleAdd} />
+        <AddNew shouldClose={shouldClose} addCountdown={handleAdd} />
         <Grid container gap={2} justifyContent="center">
           {countdowns.map((countdown) => (
             <Collapsible
               key={countdown.id}
               buttonTexts={{ open: `Open ${countdown.title}`, closed: "close" }}
-              defaultOpen={countdown.open}
+              defaultOpen
             >
               <Countdown countdown={countdown} onDelete={handleDelete} />
             </Collapsible>

@@ -3,28 +3,41 @@ import { useState } from "react";
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import { Collapsible } from "./Collapsible";
 import { handleValidation } from "../utils/validation";
+import { v4 } from "uuid";
+import { addDataToCollection } from "../firebase/firebase";
 
 const AddNew = ({ addCountdown }) => {
   const defaultVal = { title: "", endDate: new Date() };
   const [value, setValue] = useState(defaultVal);
   const [errors, setErrors] = useState({});
+  let defaultOpen = false;
 
   const handleChange = (key, newValue) => {
     setValue((val) => ({ ...val, [key]: newValue }));
   };
 
-  const handleAddCountdown = () => {
+  const handleAddCountdown = async () => {
     const { hasErrors, errors } = handleValidation(value);
     setErrors(errors);
     if (!hasErrors) {
-      addCountdown(value);
+      const addedItem = { ...value, id: v4(), createdAt: new Date() };
+      const result = await addDataToCollection("countdowns", addedItem);
+      if (result.success) {
+        defaultOpen = true;
+
+        addCountdown(addedItem);
+      }
+      console.log("result", result);
       setValue(defaultVal);
     }
   };
 
   const { title, endDate } = value;
   return (
-    <Collapsible buttonTexts={{ open: "Add New Timer", closed: "Close" }}>
+    <Collapsible
+      defaultOpen={defaultOpen}
+      buttonTexts={{ open: "Add New Timer", closed: "Close" }}
+    >
       <Box
         component="form"
         sx={{
