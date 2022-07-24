@@ -1,3 +1,9 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
 body {
   /* display: flex;
   justify-content: center;
@@ -11,10 +17,14 @@ body {
 
 .App {
   text-align: center;
+  height: 100%;
+  /* display: flex;
+  justify-content: center;
+  align-items: center; */
 }
 h2 {
   font-size: 5rem;
-  font-weight: bold ;
+  font-weight: bold;
 }
 
 .coming-soon {
@@ -33,15 +43,14 @@ h2 {
 } */
 
 .time-container {
-  width: 50%  
+  width: 50%;
 }
 
 @media screen and (min-width: 462px) {
-.time-container {
-  width: 25% 
-}
-
+  .time-container {
+    width: 25%;
+  }
 }
 .time-value {
-font-size: 3rem;
+  font-size: 3rem;
 }

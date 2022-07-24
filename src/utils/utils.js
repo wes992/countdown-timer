@@ -1,3 +1,5 @@
+import dayjs from "dayjs";
+
 export const getTimeDifference = (endTimeMS, startTimeMS) => {
   const nowMS = new Date().getTime();
   let _startTimeMS = startTimeMS || nowMS;
@@ -39,6 +41,8 @@ export const getCountdownProgress = (countdown) => {
   return currentProgress <= 100 ? currentProgress : 100;
 };
 
+const getRandomIndex = (array) => Math.floor(Math.random() * array.length);
+
 export const getFinishedText = () => {
   const finishedTexts = [
     "Woohoo, you made it!",
@@ -47,6 +51,19 @@ export const getFinishedText = () => {
     "Buckle up, here we go!",
   ];
 
-  const randomIndex = Math.floor(Math.random() * finishedTexts.length);
-  return finishedTexts[randomIndex];
+  return finishedTexts[getRandomIndex(finishedTexts)];
+};
+
+export const getBackgroundImage = () => {
+  const options = [
+    "linear-gradient(to bottom right, red, blue)",
+    "linear-gradient(to bottom right, steelblue, white)",
+    "linear-gradient(to bottom right, purple, coral)",
+  ];
+
+  return options[getRandomIndex(options)];
+};
+
+export const formatDate = (date, format = "MMM D, YYYY") => {
+  return dayjs(date).format(format);
 };

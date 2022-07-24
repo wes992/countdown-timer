@@ -9,49 +9,58 @@ import {
 } from "firebase/firestore";
 import { firebaseConfig } from "./config";
 
-initializeApp(firebaseConfig);
-export const db = getFirestore();
+export const useFirebase = () => {
+  initializeApp(firebaseConfig);
+  const db = getFirestore();
+  const getCollection = (_collection) => collection(db, _collection);
 
-export const getCollection = (_collection) => collection(db, _collection);
-
-export const getDataInCollection = async (collection, input) => {
-  let data = [];
-  try {
-    const snapShot = await getDocs(getCollection(collection));
-    data = snapShot.docs.map((doc) => {
-      return {
-        ...doc.data(),
-        id: doc.id,
-      };
-    });
-  } catch (err) {
-    console.log(err.message);
-  } finally {
-    return data;
-  }
-};
-
-export const addDataToCollection = async (collection, docToAdd) => {
-  try {
-    const result = await addDoc(getCollection(collection), docToAdd);
-
-    if (!!result.id) {
-      const newData = await getDataInCollection(collection);
-      return { success: true, data: newData };
+  const getDataInCollection = async (collection, input) => {
+    let data = [];
+    try {
+      const snapShot = await getDocs(getCollection(collection));
+      const docData = snapShot.docs.map((doc) => {
+        return {
+          ...doc.data(),
+          id: doc.id,
+        };
+      });
+      data = { success: true, data: docData };
+    } catch (err) {
+      console.log(err.message);
+      data = { success: false, data: err };
     }
-  } catch (err) {
-    console.log(err);
-    return { success: false, data: err };
-  }
-};
+    return data;
+  };
 
-export const deleteDataFromCollection = async (collection, docId) => {
-  const docToDelete = doc(getCollection(collection), docId);
-  try {
-    await deleteDoc(docToDelete);
-  } catch (err) {
-    console.log(err);
-  }
+  const addDataToCollection = async (collection, docToAdd) => {
+    try {
+      const result = await addDoc(getCollection(collection), docToAdd);
+
+      if (!!result.id) {
+        const newData = await getDataInCollection(collection);
+        return { success: true, data: newData };
+      }
+    } catch (err) {
+      console.log(err);
+      return { success: false, data: err };
+    }
+  };
+
+  const deleteDataFromCollection = async (collection, docId) => {
+    const docToDelete = doc(getCollection(collection), docId);
+    try {
+      await deleteDoc(docToDelete);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  return {
+    getCollection,
+    getDataInCollection,
+    addDataToCollection,
+    deleteDataFromCollection,
+  };
 };
 
 // export default app;

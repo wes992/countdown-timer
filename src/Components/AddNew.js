@@ -1,15 +1,20 @@
 import { TextField, Box, Button } from "@mui/material";
 import { useState } from "react";
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { Collapsible } from "./Collapsible";
 import { handleValidation } from "../utils/validation";
 import { v4 } from "uuid";
-import { addDataToCollection } from "../firebase/firebase";
+import { useFirebase } from "../firebase";
 
 const AddNew = ({ addCountdown }) => {
-  const defaultVal = { title: "", endDate: new Date() };
+  const defaultVal = { title: "", endDate: null };
   const [value, setValue] = useState(defaultVal);
   const [errors, setErrors] = useState({});
+  const [collapsed, setCollapsed] = useState(true);
+
+  const { getDataInCollection, deleteDataFromCollection, addDataToCollection } =
+    useFirebase();
 
   const handleChange = (key, newValue) => {
     setValue((val) => ({ ...val, [key]: newValue }));
@@ -23,15 +28,19 @@ const AddNew = ({ addCountdown }) => {
       const result = await addDataToCollection("countdowns", addedItem);
       if (result.success) {
         addCountdown(addedItem);
+        setCollapsed(true);
       }
-      console.log("result", result);
       setValue(defaultVal);
     }
   };
 
   const { title, endDate } = value;
   return (
-    <Collapsible buttonTexts={{ open: "Add New Timer", closed: "Close" }}>
+    <Collapsible
+      collapsed={collapsed}
+      setCollapsed={setCollapsed}
+      buttonTexts={{ open: "Add New Timer", closed: "Close" }}
+    >
       <Box
         component="form"
         sx={{
@@ -60,10 +69,11 @@ const AddNew = ({ addCountdown }) => {
           />
         </div>
         <div>
-          <DateTimePicker
-            error={!!errors.endDate}
-            display="block"
-            label="Date/Time picker"
+          <DatePicker
+            disablePast
+            label="Pick a date"
+            openTo="year"
+            views={["year", "month", "day"]}
             value={endDate}
             onChange={(val) => handleChange("endDate", val.toDate())}
             renderInput={(params) => (
@@ -73,6 +83,7 @@ const AddNew = ({ addCountdown }) => {
                 }
                 variant="filled"
                 {...params}
+                required
               />
             )}
           />

@@ -5,10 +5,10 @@ const Collapsible = ({
   buttonTexts,
   children,
   defaultOpen = false,
+  collapsed,
+  setCollapsed,
   ...props
 }) => {
-  const [collapsed, setCollapsed] = useState(!defaultOpen);
-
   return (
     <Grid
       container
