@@ -12,7 +12,7 @@ import { formatDate } from "../../utils/utils";
 
 const CountdownListItem = (countdown) => {
   const { id, title, endDate } = countdown;
-  const { setSelectedCountdown, setMenuOpen } = useCountdownContext();
+  const { menuOpen, setSelectedCountdown, setMenuOpen } = useCountdownContext();
 
   const handleSelectCountdown = () => {
     setSelectedCountdown(countdown);
@@ -24,6 +24,7 @@ const CountdownListItem = (countdown) => {
         key={id}
         alignItems="flex-start"
         onClick={handleSelectCountdown}
+        sx={{ paddingLeft: menuOpen ? 2 : 1, transition: "all 500ms ease" }}
       >
         <ListItemAvatar>
           <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />

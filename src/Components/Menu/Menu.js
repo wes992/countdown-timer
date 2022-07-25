@@ -43,27 +43,26 @@ const Menu = ({}) => {
         margin: 0,
         position: "absolute",
         zIndex: "5",
-        // transitionDuration: "600ms",
       }}
-      timeout={600}
-      easing={"ease-in"}
+      timeout={500}
+      easing={"ease"}
     >
       <Grid
         container
         alignItems="flex-start"
         height={"100%"}
+        flexWrap="nowrap"
         backgroundColor={
-          menuOpen ? "rgba(235,235,235,1)" : "rgba(235,235,235,.5)"
+          // menuOpen ? "rgba(235,235,235,1)" : "rgba(235,235,235,.5)"
+          "rgba(235,235,235,1)"
         }
         pt={2}
         borderRadius={"0 7px 7px 0"}
       >
-        {/* {menuOpen ? ( */}
         <Grid container height={"100%"} direction={"column"}>
-          <Grid item xs={11} sx={{ overflowY: "scroll" }}>
+          <Grid item xs={11} overflow="scroll">
             <AddNew addCountdown={handleAdd} />
-
-            <Countdowns countdowns={countdowns} />
+            <Countdowns countdowns={countdowns} pl={menuOpen ? "1rem" : 0} />
           </Grid>
           <Grid justifyContent="center" item xs={1}>
             <Button
@@ -75,18 +74,6 @@ const Menu = ({}) => {
             </Button>
           </Grid>
         </Grid>
-        {/* ) : (
-          <Grid justifyContent="center" alignItems="center">
-            <Button
-              type="text"
-              color="primary"
-              onClick={() => setMenuOpen(true)}
-              // sx={{ minWidth: "fit-content" }}
-            >
-              |||
-            </Button>
-          </Grid>
-        )} */}
       </Grid>
     </Collapse>
   );

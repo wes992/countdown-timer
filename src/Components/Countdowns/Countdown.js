@@ -19,6 +19,7 @@ const Countdown = () => {
     setMenuOpen,
   } = useCountdownContext();
   const { id, title = "", endDate = "" } = selectedCountdown;
+
   const [remainingTime, setRemainingTime] = useState({});
   const [finishedText, setFinishedText] = useState("");
   const [backgroundImage, setBackgroundImage] = useState("");
@@ -112,7 +113,6 @@ const Countdown = () => {
     >
       <Grid
         container
-        // px={3}
         justifyContent="space-around"
         textAlign="center"
         color="white"
@@ -127,13 +127,13 @@ const Countdown = () => {
           xs={12}
         >
           <Grid item>
-            <Typography variant="h2">{title}</Typography>
+            <Typography variant="h6">{title}</Typography>
           </Grid>
-          <Grid item>
+          {/* <Grid item>
             <Button variant="text" onClick={() => handleDelete(id)}>
               x
-            </Button>
-          </Grid>
+            </Button> 
+          </Grid>  */}
         </Grid>
 
         <Grid item>
@@ -160,8 +160,11 @@ const Countdown = () => {
           </Typography>
           <Typography className="time-description">Second</Typography>
         </Grid>
-        {/* <Cup progress={getCountdownProgress(selectedCountdown)} /> */}
       </Grid>
+
+      {/* <Grid container ml={2} py={2} justifyContent={"center"}>
+        <Cup progress={getCountdownProgress(selectedCountdown)} />
+      </Grid> */}
     </Grid>
   );
 };
