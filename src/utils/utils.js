@@ -57,7 +57,7 @@ export const getFinishedText = () => {
 export const getBackgroundImage = () => {
   const options = [
     "linear-gradient(to bottom right, red, blue)",
-    "linear-gradient(to bottom right, steelblue, white)",
+    "linear-gradient(to bottom right, white, steelblue)",
     "linear-gradient(to bottom right, purple, coral)",
   ];
 

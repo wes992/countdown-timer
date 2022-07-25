@@ -7,11 +7,16 @@ import {
   deleteDoc,
   doc,
 } from "firebase/firestore";
+
+import { getStorage, ref } from "firebase/storage";
 import { firebaseConfig } from "./config";
 
 export const useFirebase = () => {
-  initializeApp(firebaseConfig);
+  const app = initializeApp(firebaseConfig);
   const db = getFirestore();
+  const storage = getStorage(app);
+
+  const storageRef = ref(storage, "/images");
   const getCollection = (_collection) => collection(db, _collection);
 
   const getDataInCollection = async (collection, input) => {
